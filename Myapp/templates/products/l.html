@@ -1,0 +1,55 @@
+
+
+
+{% extends 'products/base.html' %}
+
+{% load humanize %}
+{% block side %}
+ 
+
+{% endblock %}
+
+{% block content %}
+<div class="col-sm-10">
+<h2 class="text-primary my-5">  List of Product  </h2>
+
+<!-- table -->
+{% if object_list %}
+    <table class="table table-hover bg-info">
+    <thead class="thead-dark">
+        <tr class="text-center">
+        <th scope="col" style="width:10%">Name</th>
+        <th scope="col"style="width:10%" >Weight</th>
+        <th scope="col" style="width:15%" > Price</th>
+        <th scope="col" style="width:30%" >Created at</th>
+         <th scope="col" style="width:30%" >Updated at</th>
+        </tr>
+    </thead>
+    <tbody>
+    {%  for object in object_list%}
+        <tr>
+        <th scope="row">{{object.name}}</th>
+        <td>{{object.weight}} kg</td>
+        <td>{{object.price | intcomma}}  &#8377;</td>
+        <td>{{object.created_at}}</td>
+        <td>{{object.updated_at}}</td>
+        <td class ="text-center"> 
+         <a href="{% url 'pd' object.pk %}" class="btn btn-warning btn-sm">show more</a> 
+        <form  method="post" class="d-inline" action=" {% url 'del' object.pk %}">
+        {% csrf_token %}
+        <input type="submit" class="btn btn-danger btn-sm" value="Delete">
+        </form> 
+        </td>
+        </tr>
+    {% endfor %}    
+    </tbody>
+    </table>
+   {% else %} 
+   <h5> No Record Founds</h5>
+   {% endif %}  
+
+</div>
+ 
+ 
+
+{% endblock content %} 
